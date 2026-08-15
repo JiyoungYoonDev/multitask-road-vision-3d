@@ -1,0 +1,12 @@
+{
+  "encoder_params": 72528,
+  "seg_head_params": 35283,
+  "depth_head_params": 34993,
+  "total_params": 142804,
+  "two_separate_models_params": 215332,
+  "param_savings_pct": 33.7,
+  "device": "mps",
+  "chip": "Apple M5 Pro",
+  "ms_per_frame": 0.87,
+  "fps": 1153.9
+}

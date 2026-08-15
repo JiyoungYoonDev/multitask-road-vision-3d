@@ -5,6 +5,8 @@ import ClassImbalance from "./components/ClassImbalance";
 import ClassWeightComparison from "./components/ClassWeightComparison";
 import ArchitectureExplorer from "./components/ArchitectureExplorer";
 import Footer from "./components/Footer";
+import PerformanceBadges from "./components/PerformanceBadges";
+import Header from "./components/Header";
 
 function Section({
   eyebrow,
@@ -42,6 +44,7 @@ export default function Home() {
     <div className="flex flex-1 flex-col items-center bg-zinc-50 dark:bg-black">
       {/* 01 — Hero: full-bleed frame + the question the rest of the page answers */}
       <section className="relative flex min-h-[85vh] w-full items-end justify-center overflow-hidden">
+        <Header />
         <Image
           src="/images/sample-input.png"
           alt="a racing-kart camera frame"
@@ -51,9 +54,6 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/10" />
         <div className="relative flex w-full max-w-4xl flex-col gap-4 px-6 pb-20 text-center sm:text-left">
-          <p className="text-sm font-medium uppercase tracking-widest text-zinc-300">
-            Multitask Road Vision
-          </p>
           <h1 className="max-w-2xl text-3xl font-semibold leading-tight tracking-tight text-white sm:text-5xl">
             Can a CNN understand both what something is and where it is?
           </h1>
@@ -106,9 +106,10 @@ export default function Home() {
         <Section
           eyebrow="Two brains, one network"
           title="A shared encoder, two decoder heads"
-          description="Training both tasks together is cheaper than training two separate models, and each task nudges the shared features to be more useful for the other."
+          description="Training both tasks together is cheaper than training two separate models, and each task nudges the shared features to be more useful for the other. Optimized jointly on L_total = L_seg + λ·L_depth (λ = 1)."
         >
           <ArchitectureExplorer />
+          <PerformanceBadges />
         </Section>
 
         {/* 09 — What I learned */}

@@ -63,13 +63,12 @@ export default function Architecture() {
         detail lost while downsampling — the same trick U-Net uses.
       </p>
       <p className="max-w-xl text-center text-sm text-zinc-500 dark:text-zinc-400">
-        Trained jointly on a single combined loss,{" "}
-        <span className="font-mono italic">
-          𝓛 = 𝓛<sub>seg</sub> + λ·𝓛<sub>depth</sub>
-        </span>
-        , with λ = 1 — no explicit rebalancing between the two heads here;
-        the class imbalance below was fixed separately, inside{" "}
-        <span className="font-mono">𝓛<sub>seg</sub></span> itself.
+        𝓛<sub>seg</sub> is class-weighted cross-entropy,{" "}
+        𝓛<sub>depth</sub> is plain MSE — two losses on very different
+        scales (bounded log-probabilities vs. squared pixel error), summed
+        with λ = 1 and no explicit normalization between them. It works here,
+        but it&apos;s the kind of shortcut that stops working the moment one
+        loss term is 100× the other&apos;s magnitude.
       </p>
     </div>
   );
