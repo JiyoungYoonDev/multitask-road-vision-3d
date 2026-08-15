@@ -1,7 +1,7 @@
 const classes = [
-  { label: "background", pct: 97.194, color: "bg-zinc-400 dark:bg-zinc-600" },
-  { label: "track boundary A", pct: 1.421, color: "bg-emerald-400 dark:bg-emerald-500" },
-  { label: "track boundary B", pct: 1.385, color: "bg-amber-400 dark:bg-amber-500" },
+  { label: "Road", pct: 97.194, color: "bg-zinc-400 dark:bg-zinc-600" },
+  { label: "Left Boundary", pct: 1.421, color: "bg-emerald-400 dark:bg-emerald-500" },
+  { label: "Right Boundary", pct: 1.385, color: "bg-amber-400 dark:bg-amber-500" },
 ];
 
 export default function ClassImbalance() {

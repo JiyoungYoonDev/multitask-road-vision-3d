@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import type { ColorMode } from "./PointCloud";
 
 const PointCloud = dynamic(() => import("./PointCloud"), {
   ssr: false,
@@ -11,6 +12,12 @@ const PointCloud = dynamic(() => import("./PointCloud"), {
   ),
 });
 
-export default function PointCloudLoader() {
-  return <PointCloud />;
+export default function PointCloudLoader({
+  colorMode,
+  visibleClasses,
+}: {
+  colorMode?: ColorMode;
+  visibleClasses?: Set<number>;
+}) {
+  return <PointCloud colorMode={colorMode} visibleClasses={visibleClasses} />;
 }

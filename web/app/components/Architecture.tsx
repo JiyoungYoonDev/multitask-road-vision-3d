@@ -62,6 +62,15 @@ export default function Architecture() {
         <code className="font-mono">feature2</code>) to recover spatial
         detail lost while downsampling — the same trick U-Net uses.
       </p>
+      <p className="max-w-xl text-center text-sm text-zinc-500 dark:text-zinc-400">
+        Trained jointly on a single combined loss,{" "}
+        <span className="font-mono italic">
+          𝓛 = 𝓛<sub>seg</sub> + λ·𝓛<sub>depth</sub>
+        </span>
+        , with λ = 1 — no explicit rebalancing between the two heads here;
+        the class imbalance below was fixed separately, inside{" "}
+        <span className="font-mono">𝓛<sub>seg</sub></span> itself.
+      </p>
     </div>
   );
 }

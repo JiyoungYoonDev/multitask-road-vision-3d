@@ -1,7 +1,7 @@
 const rows = [
-  { label: "background", withW: 0.9815, noW: 0.9851 },
-  { label: "track boundary A", withW: 0.5901, noW: 0.5801 },
-  { label: "track boundary B", withW: 0.5906, noW: 0.5742 },
+  { label: "Road", withW: 0.9815, noW: 0.9851 },
+  { label: "Left Boundary", withW: 0.5901, noW: 0.5801 },
+  { label: "Right Boundary", withW: 0.5906, noW: 0.5742 },
 ];
 
 function Bar({ value, colorClass }: { value: number; colorClass: string }) {

@@ -1,28 +1,10 @@
 import Image from "next/image";
-import Architecture from "./components/Architecture";
-import PointCloud from "./components/PointCloudLoader";
-import PixelInspector from "./components/PixelInspector";
+import SceneExplorer from "./components/SceneExplorer";
 import FailureGallery from "./components/FailureGallery";
 import ClassImbalance from "./components/ClassImbalance";
 import ClassWeightComparison from "./components/ClassWeightComparison";
-
-const panels = [
-  {
-    src: "/images/sample-input.png",
-    label: "Input",
-    caption: "raw camera frame",
-  },
-  {
-    src: "/images/sample-segmentation.png",
-    label: "Segmentation",
-    caption: "road vs. track boundary, per pixel",
-  },
-  {
-    src: "/images/sample-depth.png",
-    label: "Depth",
-    caption: "predicted distance, per pixel",
-  },
-];
+import ArchitectureExplorer from "./components/ArchitectureExplorer";
+import Footer from "./components/Footer";
 
 function Section({
   eyebrow,
@@ -58,80 +40,40 @@ function Section({
 export default function Home() {
   return (
     <div className="flex flex-1 flex-col items-center bg-zinc-50 dark:bg-black">
-      <main className="flex w-full max-w-4xl flex-1 flex-col px-6">
-        {/* 01 — Hero */}
-        <section className="flex min-h-[70vh] w-full flex-col justify-center gap-4 py-24">
-          <p className="text-sm font-medium uppercase tracking-widest text-zinc-500 dark:text-zinc-400">
+      {/* 01 — Hero: full-bleed frame + the question the rest of the page answers */}
+      <section className="relative flex min-h-[85vh] w-full items-end justify-center overflow-hidden">
+        <Image
+          src="/images/sample-input.png"
+          alt="a racing-kart camera frame"
+          fill
+          priority
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/10" />
+        <div className="relative flex w-full max-w-4xl flex-col gap-4 px-6 pb-20 text-center sm:text-left">
+          <p className="text-sm font-medium uppercase tracking-widest text-zinc-300">
             Multitask Road Vision
           </p>
-          <h1 className="max-w-2xl text-4xl font-semibold tracking-tight text-zinc-950 dark:text-zinc-50 sm:text-5xl">
-            One CNN. Two questions about every pixel.
+          <h1 className="max-w-2xl text-3xl font-semibold leading-tight tracking-tight text-white sm:text-5xl">
+            Can a CNN understand both what something is and where it is?
           </h1>
-          <p className="max-w-xl text-lg leading-7 text-zinc-600 dark:text-zinc-400">
-            A single convolutional network that looks at one racing-kart
-            camera frame and answers, for every pixel: what is this (road,
-            boundary, background), and how far away is it.
-          </p>
-        </section>
+          <p className="text-lg text-zinc-300">Find out ↓</p>
+        </div>
+      </section>
 
-        {/* 02 — What does the model see */}
+      <main className="flex w-full max-w-4xl flex-1 flex-col px-6">
+        {/* 02+03+04 — What does the model see / touch a pixel / step into the scene, unified */}
         <Section
           eyebrow="What does the model see?"
-          title="RGB → Segmentation → Depth"
-          description="Same input, two decoder heads, two very different questions answered from the same shared features."
+          title="One frame, four ways to look at it"
         >
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-            {panels.map((panel) => (
-              <div
-                key={panel.label}
-                className="flex flex-col gap-3 rounded-2xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-950"
-              >
-                <div className="overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-900">
-                  <Image
-                    src={panel.src}
-                    alt={panel.label}
-                    width={640}
-                    height={480}
-                    className="h-auto w-full"
-                  />
-                </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-zinc-950 dark:text-zinc-50">
-                    {panel.label}
-                  </h3>
-                  <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                    {panel.caption}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
+          <SceneExplorer />
         </Section>
 
-        {/* 03 — Touch a pixel */}
-        <Section
-          eyebrow="Touch a pixel"
-          title="Pixel Inspector"
-          description="Hover anywhere on the frame to read out that exact pixel's predicted class and depth — the same two numbers every pixel in the image above was reduced to."
-        >
-          <PixelInspector />
-        </Section>
-
-        {/* 04 — Step into the scene */}
-        <Section
-          eyebrow="Step into the scene"
-          title="Segmentation + depth → a 3D scene"
-          description="Every pixel's predicted depth pushes it back in space; its original color comes along for the ride. Drag to orbit, scroll to zoom — this is one predicted frame, reconstructed from a single 2D image."
-        >
-          <div className="h-[480px] w-full overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-950">
-            <PointCloud />
-          </div>
-          <p className="text-xs text-zinc-500 dark:text-zinc-400">
-            Note: depth is relative, not metric — there&apos;s no camera
-            calibration here, so treat the 3D shape as illustrative rather
-            than measured.
-          </p>
-        </Section>
+        <p className="max-w-2xl border-t border-zinc-200 pt-10 text-lg leading-7 text-zinc-500 italic dark:border-zinc-900 dark:text-zinc-500">
+          But both answers — what, and how far — came from the same shared
+          visual features. One encoder, not two.
+        </p>
 
         {/* 05 — Break the model */}
         <Section
@@ -164,9 +106,9 @@ export default function Home() {
         <Section
           eyebrow="Two brains, one network"
           title="A shared encoder, two decoder heads"
-          description="The encoder (down1 → down3) is reused for both tasks. Only the last few layers branch off into a segmentation head and a depth head — training both together is cheaper than training two separate models, and each task nudges the shared features to be more useful."
+          description="Training both tasks together is cheaper than training two separate models, and each task nudges the shared features to be more useful for the other."
         >
-          <Architecture />
+          <ArchitectureExplorer />
         </Section>
 
         {/* 09 — What I learned */}
@@ -212,6 +154,8 @@ export default function Home() {
 
         <div className="h-16" />
       </main>
+
+      <Footer />
     </div>
   );
 }
