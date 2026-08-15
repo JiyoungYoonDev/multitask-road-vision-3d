@@ -16,9 +16,9 @@ type CloudData = {
 };
 
 const SEMANTIC_COLORS: [number, number, number][] = [
-  [0.55, 0.55, 0.58], // Road
-  [0.2, 0.78, 0.53], // Left Boundary (emerald)
-  [0.95, 0.68, 0.18], // Right Boundary (amber)
+  [0.55, 0.55, 0.58],
+  [0.2, 0.78, 0.53],
+  [0.95, 0.68, 0.18],
 ];
 
 function depthColor(d: number): [number, number, number] {
