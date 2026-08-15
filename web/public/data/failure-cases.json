@@ -1,0 +1,6 @@
+[
+  {"name": "worst-1", "iou": 0.331, "depth_err": 0.024},
+  {"name": "worst-2", "iou": 0.333, "depth_err": 0.034},
+  {"name": "worst-3", "iou": 0.336, "depth_err": 0.045},
+  {"name": "best-1", "iou": 0.875, "depth_err": 0.005}
+]

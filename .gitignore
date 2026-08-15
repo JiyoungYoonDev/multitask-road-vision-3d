@@ -1,5 +1,7 @@
 node_modules
 __pycache__
 ml/venv
+ml/drive_data
+ml/classification_data
 *.th
 .DS_Store

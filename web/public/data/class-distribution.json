@@ -1,0 +1,8 @@
+{
+  "classes": [
+    {"id": 0, "label": "background", "pixels": 23886365, "pct": 97.194},
+    {"id": 1, "label": "track boundary A", "pixels": 349298, "pct": 1.421},
+    {"id": 2, "label": "track boundary B", "pixels": 340337, "pct": 1.385}
+  ],
+  "source": "computed over full drive_data/val split (4 episodes, 2000 frames)"
+}
