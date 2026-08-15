@@ -170,7 +170,7 @@ export default function SceneExplorer() {
 
             <div className="flex flex-col gap-2">
               <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-                Show
+                Visible classes
               </p>
               {pixelData?.classNames.map((name, id) => (
                 <label key={id} className="flex items-center gap-2 text-zinc-700 dark:text-zinc-300">
