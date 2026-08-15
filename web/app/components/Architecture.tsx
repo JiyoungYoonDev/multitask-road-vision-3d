@@ -56,20 +56,32 @@ export default function Architecture() {
         </div>
       </div>
 
-      <p className="mt-6 max-w-xl text-center text-sm text-zinc-500 dark:text-zinc-400">
-        Both heads reuse skip connections from the encoder (
-        <code className="font-mono">feature1</code>,{" "}
-        <code className="font-mono">feature2</code>) to recover spatial
-        detail lost while downsampling — the same trick U-Net uses.
-      </p>
-      <p className="max-w-xl text-center text-sm text-zinc-500 dark:text-zinc-400">
-        𝓛<sub>seg</sub> is class-weighted cross-entropy,{" "}
-        𝓛<sub>depth</sub> is plain MSE — two losses on very different
-        scales (bounded log-probabilities vs. squared pixel error), summed
-        with λ = 1 and no explicit normalization between them. It works here,
-        but it&apos;s the kind of shortcut that stops working the moment one
-        loss term is 100× the other&apos;s magnitude.
-      </p>
+      <div className="mt-6 grid w-full gap-4 sm:grid-cols-2">
+        <div className="flex flex-col gap-2 rounded-2xl border border-zinc-200 bg-white p-4 text-left dark:border-zinc-800 dark:bg-zinc-950">
+          <span className="w-fit rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium uppercase tracking-wide text-zinc-500 dark:bg-zinc-900 dark:text-zinc-400">
+            Skip connections
+          </span>
+          <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+            Both heads reuse{" "}
+            <code className="font-mono">feature1</code> and{" "}
+            <code className="font-mono">feature2</code> from the encoder to
+            recover spatial detail lost while downsampling — the same trick
+            U-Net uses.
+          </p>
+        </div>
+        <div className="flex flex-col gap-2 rounded-2xl border border-zinc-200 bg-white p-4 text-left dark:border-zinc-800 dark:bg-zinc-950">
+          <span className="w-fit rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium uppercase tracking-wide text-zinc-500 dark:bg-zinc-900 dark:text-zinc-400">
+            Loss balancing
+          </span>
+          <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+            𝓛<sub>seg</sub> (weighted cross-entropy) and 𝓛<sub>depth</sub>{" "}
+            (plain MSE) sit on very different scales, summed with λ = 1 and
+            no explicit normalization. It works here — but it&apos;s a
+            shortcut that stops working once one term is 100× the
+            other&apos;s magnitude.
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

@@ -56,20 +56,19 @@ export default function ClassWeightComparison() {
           actually finished ahead.
         </p>
         <p>
-          Both curves above are the same setup — 20 epochs, same seed, same
-          everything — with only <code className="font-mono">class_weights</code>{" "}
-          different, so this is a fair fight, not the earlier 50-epoch
-          checkpoint. And the unweighted run won on every class (Road 0.985
-          vs. 0.974, Left 0.580 vs. 0.525, Right 0.574 vs. 0.508). What the
-          chart makes clear is <em>why</em> that&apos;s not the whole story:
-          the weighted model jumps to IoU ≈0.47 in epoch 1 and never looks
-          back, while the unweighted model is stuck near 0.33 — background
-          only — for its first ~7 epochs before catching up and eventually
-          overtaking. So the weights buy a faster, safer start, not a higher
-          ceiling, at least at this scale. I&apos;m also only running one
-          seed per condition, so part of that late-game crossover could be
-          noise rather than a real effect — I&apos;d want a few more seeds
-          before trusting the exact ranking at epoch 20.
+          Both curves are the exact same setup — 20 epochs, same seed, only{" "}
+          <code className="font-mono">class_weights</code> different — so
+          the bars above are a fair fight, not the earlier 50-epoch
+          checkpoint. The chart shows <em>why</em> the final ranking is
+          misleading on its own: weighted jumps to IoU ≈0.47 in epoch 1 and
+          never looks back, while unweighted is stuck near 0.33 — background
+          only — for ~7 epochs before catching up and overtaking. The
+          weights bought a faster, safer start, not a higher ceiling.
+        </p>
+        <p className="mt-3">
+          One seed per condition, though — that late-game crossover could be
+          real, or just noise. I&apos;d want a few more runs before trusting
+          the exact ranking at epoch 20.
         </p>
       </div>
     </div>

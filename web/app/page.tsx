@@ -16,7 +16,7 @@ function Section({
 }: {
   eyebrow: string;
   title: string;
-  description?: string;
+  description?: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
@@ -106,7 +106,17 @@ export default function Home() {
         <Section
           eyebrow="Two brains, one network"
           title="A shared encoder, two decoder heads"
-          description="Training both tasks together is cheaper than training two separate models, and each task nudges the shared features to be more useful for the other. Optimized jointly on L_total = L_seg + λ·L_depth (λ = 1)."
+          description={
+            <>
+              Training both tasks together is cheaper than training two
+              separate models, and each task nudges the shared features to
+              be more useful for the other. Optimized jointly on{" "}
+              <span className="font-mono italic">
+                𝓛<sub>total</sub> = 𝓛<sub>seg</sub> + λ·𝓛<sub>depth</sub>
+              </span>{" "}
+              (λ = 1).
+            </>
+          }
         >
           <ArchitectureExplorer />
           <PerformanceBadges />
@@ -114,42 +124,66 @@ export default function Home() {
 
         {/* 09 — What I learned */}
         <Section eyebrow="What I learned" title="Reflection">
-          <div className="flex max-w-2xl flex-col gap-4 text-lg leading-7 text-zinc-600 dark:text-zinc-400">
-            <p>
-              The most surprising moment was running a single channel from{" "}
-              <code className="font-mono text-sm">down3</code> back through
-              the network and seeing it light up almost exactly on top of my
-              own kart in the frame — nobody labeled &quot;find the kart&quot;
-              anywhere in training, the network just found that a useful
-              thing to track on its own. Earlier layers were the opposite:
-              broad, edge-like responses everywhere, some channels dead for a
-              given image, some blurry. Watching that shift from
-              &quot;generic edge detector&quot; to &quot;specific object
-              locator&quot; across three downsampling steps made the encoder
-              feel a lot less like a black box.
-            </p>
-            <p>
-              Class imbalance taught me to be more careful with my own
-              intuition. I expected training without{" "}
-              <code className="font-mono text-sm">class_weights=[1,10,10]</code>{" "}
-              to just fail on the boundary classes. It didn&apos;t — given 20
-              epochs it got close to the weighted model&apos;s final IoU. What
-              the weighting actually fixed was the first several epochs,
-              where the unweighted model was stuck only predicting
-              background. So the real lesson wasn&apos;t &quot;imbalance
-              breaks the model,&quot; it was &quot;imbalance slows down
-              *when* the model finds the minority classes&quot; — a smaller
-              effect than I assumed, but a real one, and one I only found
-              because I ran the comparison instead of trusting my guess.
-            </p>
-            <p>
-              Next I&apos;d want to try the depth-ablation idea I scoped
-              earlier but didn&apos;t build — training shallower encoders
-              (one or two down-blocks instead of three) to see how much
-              detail that third downsampling stage is actually buying, and
-              extending the pixel inspector to a second image so the failure
-              cases aren&apos;t just static screenshots.
-            </p>
+          <div className="flex flex-col gap-4">
+            {[
+              {
+                tag: "Surprise",
+                headline: "A filter learned to find my own kart — unprompted.",
+                body: (
+                  <>
+                    One <code className="font-mono">down3</code> channel lit
+                    up almost exactly on the kart, while{" "}
+                    <code className="font-mono">down1</code> filters were
+                    broad, generic edge detectors. Watching that shift —
+                    edge detector to object locator, across three
+                    downsampling steps — made the encoder feel less like a
+                    black box.
+                  </>
+                ),
+              },
+              {
+                tag: "Lesson",
+                headline:
+                  "Class imbalance slows down when the model learns minority classes — not whether it does.",
+                body: (
+                  <>
+                    I expected training without{" "}
+                    <code className="font-mono">class_weights=[1,10,10]</code>{" "}
+                    to just fail on the boundary classes. It didn&apos;t —
+                    it eventually caught up, and even edged ahead by epoch
+                    20. What weighting actually bought was a faster, safer
+                    start (see the convergence chart above).
+                  </>
+                ),
+              },
+              {
+                tag: "Next",
+                headline: "Depth-ablation, and a second test image.",
+                body: (
+                  <>
+                    Train shallower encoders (one or two down-blocks instead
+                    of three) to see how much the third downsampling stage
+                    actually buys, and extend the pixel inspector past one
+                    static frame.
+                  </>
+                ),
+              },
+            ].map((item) => (
+              <div
+                key={item.tag}
+                className="flex flex-col gap-2 rounded-2xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-950"
+              >
+                <span className="w-fit rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium uppercase tracking-wide text-zinc-500 dark:bg-zinc-900 dark:text-zinc-400">
+                  {item.tag}
+                </span>
+                <p className="text-lg font-semibold leading-snug text-zinc-950 dark:text-zinc-50">
+                  {item.headline}
+                </p>
+                <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+                  {item.body}
+                </p>
+              </div>
+            ))}
           </div>
         </Section>
 
