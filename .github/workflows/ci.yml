@@ -3,9 +3,9 @@ name: multitask-road-vision-3d-CI
 on:
     push:
         branches: [main]
-        paths: ["web/**"]
+        paths: ["web/**", ".github/workflows/ci.yml"]
     pull_request:
-        paths: ["web/**"]
+        paths: ["web/**", ".github/workflows/ci.yml"]
 
 jobs:
     build:
