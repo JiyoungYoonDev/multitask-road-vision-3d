@@ -19,12 +19,10 @@ jobs:
             - uses: actions/setup-node@v4
               with:
                   node-version: '20'
-            - name: Install dependencies
-              run: npm install
             - name: Run CI
               run: npm ci
             - name: eslint
-              run: npm run init
+              run: npm run lint
             - name: Type check
               run: npx tsc --noEmit
             - name: Run Build
