@@ -38,7 +38,7 @@ export default function ConvergenceChart() {
   if (!merged) {
     return (
       <div className="flex h-64 items-center justify-center text-sm text-zinc-500">
-        loading convergence curve...
+        loading convergence curve..
       </div>
     );
   }
